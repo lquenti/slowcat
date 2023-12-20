@@ -20,6 +20,3 @@ slowcat -n 0.05
 ## Other Projects
 
 <https://github.com/mreishus/slowcat> if you want to get every character out slow.
-
-Bc I want to to see the files
-
