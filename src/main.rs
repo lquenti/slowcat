@@ -51,3 +51,28 @@ fn print_file_slowly(file_path: &str, delay: Duration) -> Result<(), SlowCatErro
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_no_args_allowed() {
+        let args = ["slowcat"];
+        let _cli = Cli::parse_from(&args);
+    }
+
+    #[test]
+    fn test_cli_args() {
+        let args = ["slowcat", "test.txt", "-n", "0.5"];
+        let cli = Cli::parse_from(&args);
+        assert_eq!(cli.files, vec!["test.txt"]);
+        assert_eq!(cli.delay, 0.5);
+    }
+
+    #[test]
+    fn test_file_open_error() {
+        let result = print_file_slowly("non_existent_file.txt", Duration::from_secs_f64(0.2));
+        assert!(matches!(result, Err(SlowCatError::FileOpenError(_))));
+    }
+}
