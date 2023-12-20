@@ -101,10 +101,10 @@ mod e2e_tests {
         // Run slowcat on the file with a 1-second delay
         let mut cmd = Command::cargo_bin("slowcat").unwrap();
         cmd.arg(file_path.to_str().unwrap())
-           .arg("-n")
-           .arg("1")
-           .assert()
-           .success();
+            .arg("-n")
+            .arg("1")
+            .assert()
+            .success();
 
         let duration = start.elapsed();
 
@@ -114,4 +114,3 @@ mod e2e_tests {
         Ok(())
     }
 }
-
