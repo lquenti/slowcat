@@ -76,3 +76,42 @@ mod tests {
         assert!(matches!(result, Err(SlowCatError::FileOpenError(_))));
     }
 }
+
+#[cfg(test)]
+mod e2e_tests {
+    use assert_cmd::Command;
+    use std::fs::File;
+    use std::io::{self, Write};
+    use std::time::{Duration, Instant};
+    use tempfile::tempdir;
+
+    #[test]
+    fn test_slowcat_execution_time() -> io::Result<()> {
+        let dir = tempdir()?;
+        let file_path = dir.path().join("testfile.txt");
+        let mut file = File::create(&file_path)?;
+
+        // Create a file with 20 lines
+        for _ in 0..20 {
+            writeln!(file, "Hello, world!")?;
+        }
+
+        let start = Instant::now();
+
+        // Run slowcat on the file with a 1-second delay
+        let mut cmd = Command::cargo_bin("slowcat").unwrap();
+        cmd.arg(file_path.to_str().unwrap())
+           .arg("-n")
+           .arg("1")
+           .assert()
+           .success();
+
+        let duration = start.elapsed();
+
+        // Check if it took at least 20 seconds
+        assert!(duration >= Duration::from_secs(20));
+
+        Ok(())
+    }
+}
+
