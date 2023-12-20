@@ -2,8 +2,12 @@
 name = "slowcat"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = "Prints the contents of files with a specified delay between each line."
+homepage = "https://github.com/lquenti/slowcat"
+repository = "https://github.com/lquenti/slowcat"
+license = "MIT"
+authors = ["Lars Quentin <lars@lquenti.de>"]
+readme = "./README.md"
 
 [dependencies]
 clap = { version = "4.4.11", features = ["derive"] }
