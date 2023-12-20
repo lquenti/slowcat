@@ -1,5 +1,15 @@
 use clap::Parser;
 use std::{fs::File, io::{self, BufRead, BufReader}, thread, time::Duration};
+use thiserror::Error;
+
+/// Custom error types for slowcat
+#[derive(Error, Debug)]
+enum SlowCatError {
+    #[error("Error opening file: \"{0}\"")]
+    FileOpenError(io::Error),
+    #[error("Error reading from file: \"{0}\"")]
+    FileReadError(io::Error),
+}
 
 /// SlowCat prints the contents of files with a delay between lines
 #[derive(Parser, Debug)]
@@ -12,24 +22,24 @@ struct Cli {
     delay: f64,
 }
 
-fn main() -> io::Result<()> {
+fn main() {
     let cli = Cli::parse();
-
     let delay_duration = Duration::from_secs_f64(cli.delay);
 
     for file in cli.files {
-        print_file_slowly(&file, delay_duration)?;
+        if let Err(e) = print_file_slowly(&file, delay_duration) {
+            eprintln!("Error: {}", e);
+            std::process::exit(1);
+        }
     }
-
-    Ok(())
 }
 
-fn print_file_slowly(file_path: &str, delay: Duration) -> io::Result<()> {
-    let file = File::open(file_path)?;
+fn print_file_slowly(file_path: &str, delay: Duration) -> Result<(), SlowCatError> {
+    let file = File::open(file_path).map_err(SlowCatError::FileOpenError)?;
     let reader = BufReader::new(file);
 
     for line in reader.lines() {
-        let line = line?;
+        let line = line.map_err(SlowCatError::FileReadError)?;
         println!("{}", line);
         thread::sleep(delay);
     }
