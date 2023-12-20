@@ -21,19 +21,19 @@ jobs:
         with:
           command: build
           args: --release
-  # test:
-  #   name: Tests
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions-rs/toolchain@v1
-  #       with:
-  #         profile: minimal
-  #         toolchain: stable
-  #         override: true
-  #     - uses: taiki-e/install-action@nextest
-  #     - name: Run test
-  #       run: cargo nextest run
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - uses: taiki-e/install-action@nextest
+      - name: Run test
+        run: cargo nextest run
   fmt:
     name: Formatter
     runs-on: ubuntu-latest
