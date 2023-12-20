@@ -1,5 +1,10 @@
 use clap::Parser;
-use std::{fs::File, io::{self, BufRead, BufReader}, thread, time::Duration};
+use std::{
+    fs::File,
+    io::{self, BufRead, BufReader},
+    thread,
+    time::Duration,
+};
 use thiserror::Error;
 
 /// Custom error types for slowcat
@@ -46,4 +51,3 @@ fn print_file_slowly(file_path: &str, delay: Duration) -> Result<(), SlowCatErro
 
     Ok(())
 }
-
