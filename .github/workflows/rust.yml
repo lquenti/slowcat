@@ -32,13 +32,9 @@ jobs:
           toolchain: stable
           override: true
       # The tests need an explicit build bc it needs the binary to be there
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --release
-      - uses: taiki-e/install-action@nextest
-      - name: Run test
-        run: cargo nextest run
+      - run: |
+          cargo build
+          cargo test
   fmt:
     name: Formatter
     runs-on: ubuntu-latest
