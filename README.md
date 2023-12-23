@@ -1,5 +1,8 @@
 # slowcat
+
 Prints the contents of files with a specified delay between each line.
+
+**Note: This crate is actively maintained, there is just nothing to do rn**
 
 ## Why I built it
 I wanted to get a feel for my benchmarks, so I wrote `for file in *.txt; do cat $file; sleep 0.2; done`. 
