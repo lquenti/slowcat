@@ -1,4 +1,4 @@
-iname: Everything Rust
+name: Everything Rust
 on:
   push:
     branches: [ main ]
